@@ -1292,7 +1292,9 @@ function triggerChapoAlarm(){
   document.getElementById('alarmOverlay').style.display='block';
   refreshMonsterDots();
   if(G.camOpen) renderCamFeed();
-  // 3 seconds to close both doors — then instant death
+  // If both doors are already closed, resolve immediately
+  if(G.lfClosed && G.rtClosed){ checkChapoResolved(); return; }
+  // Otherwise give player 3 seconds to close both doors
   G.chapoKillTimer=setTimeout(()=>{
     if(!G.dead&&!G.won&&G.chapoAlarm) triggerChapoJS();
   },3000);
