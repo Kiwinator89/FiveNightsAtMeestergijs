@@ -64,6 +64,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 }
 .warn-line.accent{color:#ff4444;font-size:clamp(.65rem,1.2vw,.85rem)}
 .warn-line.dim{color:#552222;font-size:clamp(.52rem,.9vw,.65rem)}
+.warn-line.fullscreen{color:#ffaa33;font-size:clamp(.62rem,1.05vw,.78rem);border-left-color:#664400;}
 .warn-divider{border:none;border-top:1px solid #330000;margin:18px 0}
 .warn-proceed-btn{
   display:block;width:100%;margin-top:24px;
@@ -102,10 +103,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
   animation:cornerFlicker 4s ease-in-out infinite;
 }
 @keyframes cornerFlicker{0%,100%{opacity:1}45%{opacity:.6}46%{opacity:1}47%{opacity:.4}48%{opacity:1}}
-.start-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:24px 0;width:100%}
+.start-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:16px 0;width:100%;min-height:100vh;justify-content:center;}
 /* Terminal header bar */
 .term-bar{
-  width:min(680px,92vw);
+  width:min(820px,96vw);
   background:#0a0000;border:1px solid #1a0000;border-bottom:2px solid #330000;
   padding:6px 14px;display:flex;align-items:center;gap:8px;margin-bottom:0;
 }
@@ -114,15 +115,72 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .term-title-bar{flex:1;text-align:center;font-size:.55rem;color:#331111;letter-spacing:5px}
 /* Main terminal window */
 .term-window{
-  width:min(680px,92vw);
+  width:min(820px,96vw);
   background:#020000;border:1px solid #1a0000;border-top:none;
-  padding:28px 32px 22px;margin-bottom:14px;
+  padding:28px 36px 26px;margin-bottom:14px;
   position:relative;overflow:hidden;
 }
 .term-window::before{
   content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(0deg,rgba(255,0,0,.015) 0px,rgba(255,0,0,.015) 1px,transparent 1px,transparent 4px);
   pointer-events:none;
+}
+/* ══ GIJS GLITCH IMAGE ══ */
+.menu-gijs-wrap{
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:18px;position:relative;height:min(220px,22vw);
+  overflow:hidden;
+}
+.menu-gijs-img{
+  height:100%;max-width:55%;object-fit:contain;
+  filter:brightness(.7) contrast(1.5) saturate(.4) sepia(.3);
+  animation:menuGijsGlitch 2.5s infinite;
+  position:relative;z-index:2;
+}
+@keyframes menuGijsGlitch{
+  0%,88%,100%{
+    filter:brightness(.7) contrast(1.5) saturate(.4) sepia(.3);
+    transform:none;clip-path:none;
+  }
+  89%{
+    filter:brightness(1.4) contrast(2) saturate(4) hue-rotate(80deg);
+    transform:translateX(-8px) skewX(-4deg);
+    clip-path:inset(20% 0 40% 0);
+  }
+  90%{
+    filter:brightness(.3) contrast(3) saturate(8) hue-rotate(180deg);
+    transform:translateX(12px) skewX(2deg) scaleY(1.02);
+    clip-path:inset(60% 0 10% 0);
+  }
+  91%{
+    filter:brightness(1.6) contrast(1.8) saturate(6) hue-rotate(300deg);
+    transform:translateX(-5px) scaleX(1.04);
+    clip-path:inset(5% 0 70% 0);
+  }
+  92%{
+    filter:brightness(.7) contrast(1.5) saturate(.4) sepia(.3);
+    transform:translateX(3px);
+    clip-path:inset(40% 0 25% 0);
+  }
+  93%{
+    filter:brightness(.7) contrast(1.5) saturate(.4) sepia(.3);
+    transform:none;clip-path:none;
+  }
+}
+.menu-gijs-scanlines{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.15) 0px,rgba(0,0,0,.15) 1px,transparent 1px,transparent 3px);
+}
+.menu-gijs-glitch-bar{
+  position:absolute;left:0;right:0;height:6px;background:rgba(255,0,0,.18);z-index:4;pointer-events:none;
+  animation:gijsGlitchBar 2.5s infinite;top:40%;
+}
+@keyframes gijsGlitchBar{
+  0%,87%,94%,100%{opacity:0;transform:translateY(0)}
+  89%{opacity:1;transform:translateY(-20px)}
+  90%{opacity:.7;transform:translateY(30px)}
+  91%{opacity:1;transform:translateY(-5px)}
+  92%{opacity:0}
 }
 .start-eyebrow{
   font-size:clamp(.45rem,.75vw,.6rem);color:#330000;letter-spacing:8px;
@@ -131,7 +189,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .start-eyebrow::before{content:'> ';color:#550000}
 .start-title{
   font-family:'Creepster',cursive;
-  font-size:clamp(2rem,7vw,4.8rem);color:#cc0000;line-height:1;
+  font-size:clamp(2.5rem,8vw,5.8rem);color:#cc0000;line-height:1;
   text-align:center;letter-spacing:3px;
   text-shadow:0 0 40px #ff000055,0 0 80px #ff000022,2px 2px 0 #3a0000;
   animation:titleGlitch 5s infinite;margin-bottom:6px;
@@ -144,7 +202,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 }
 .start-sub{
   font-family:'VT323',monospace;
-  font-size:clamp(.8rem,2vw,1.3rem);
+  font-size:clamp(.9rem,2.2vw,1.5rem);
   color:#330000;letter-spacing:6px;margin-bottom:24px;text-align:center;
 }
 /* Lore card — terminal file readout */
@@ -157,20 +215,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
   background:#020000;padding:0 6px;font-size:.5rem;color:#330000;letter-spacing:5px;
   font-family:'Share Tech Mono',monospace;
 }
-.lore-card p{color:#664444;font-size:clamp(.6rem,.95vw,.72rem);line-height:1.9;font-family:'Share Tech Mono',monospace;}
+.lore-card p{color:#664444;font-size:clamp(.6rem,.95vw,.75rem);line-height:1.9;font-family:'Share Tech Mono',monospace;}
 .lore-card strong{color:#cc4444}
 .lore-card .quote{
   border-left:2px solid #330000;padding:8px 12px;margin:12px 0;
-  font-style:italic;color:#663333;font-size:clamp(.58rem,.88vw,.68rem);
+  font-style:italic;color:#663333;font-size:clamp(.58rem,.88vw,.7rem);
   font-family:'Share Tech Mono',monospace;
 }
-.lore-card .warn{color:#442222;font-size:.65em;margin-top:10px;opacity:.75;font-family:'Share Tech Mono',monospace;}
+.lore-card .warn{color:#442222;font-size:.7em;margin-top:10px;opacity:.75;font-family:'Share Tech Mono',monospace;}
 /* start hint */
-.start-hint{margin-top:14px;font-size:.52rem;color:#1a0000;letter-spacing:4px;font-family:'Share Tech Mono',monospace}
+.start-hint{margin-top:14px;font-size:.55rem;color:#1a0000;letter-spacing:4px;font-family:'Share Tech Mono',monospace}
 .start-hint::before{content:'// '}
 
 /* ══ NIGHT SELECT — terminal style ══ */
-.night-select{display:flex;gap:8px;margin-bottom:18px;max-width:min(680px,92vw);width:100%}
+.night-select{display:flex;gap:8px;margin-bottom:18px;max-width:min(820px,96vw);width:100%}
 .night-btn{
   flex:1;background:#000;
   border:1px solid #1a0000;color:#330000;
@@ -209,7 +267,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 /* Start button — terminal execute style */
 .start-btn{
   background:#000;border:1px solid #660000;color:#880000;
-  padding:13px 50px;font-family:'VT323',monospace;font-size:clamp(1rem,2.2vw,1.5rem);
+  padding:14px 60px;font-family:'VT323',monospace;font-size:clamp(1.1rem,2.5vw,1.7rem);
   letter-spacing:6px;text-transform:uppercase;cursor:pointer;transition:all .2s;
   animation:btnAnim 2s ease-in-out infinite;position:relative;overflow:hidden;
 }
@@ -721,8 +779,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
     <div class="warn-line accent">Dit spel bevat frequente jumpscares en harde geluiden.</div>
     <div class="warn-line">Spelen met koptelefoon wordt aanbevolen maar doe dit op eigen risico.</div>
     <hr class="warn-divider">
-    <div class="warn-line">Dit spel is een satirische horror-parodie gebaseerd op publieke figuren en klasgenoten. De personages en situaties zijn fictief en bedoeld als humor.</div>
-    <div class="warn-line dim">Niet iedereen zal de humor in dit spel kunnen waarderen. Als jij of iemand die je kent voorkomt in dit spel en je hier bezwaar tegen hebt, sluit dan dit venster.</div>
+    <div class="warn-line fullscreen">🖥 Voor de beste ervaring: speel dit spel in <strong>volledig scherm</strong> (druk op F11 of gebruik de browserinstelling).</div>
+    <hr class="warn-divider">
+    <div class="warn-line">Dit spel is een satirische horror-parodie gebaseerd op publieke figuren. De personages en situaties zijn volledig fictief en uitsluitend bedoeld als humor.</div>
+    <div class="warn-line dim">Als jij of iemand die je kent voorkomt in dit spel en je hier bezwaar tegen hebt, sluit dan dit venster.</div>
     <hr class="warn-divider">
     <div class="warn-line dim">Door verder te gaan bevestig je dat je minimaal 13 jaar oud bent en akkoord gaat met de bovenstaande voorwaarden.</div>
     <button class="warn-proceed-btn" onclick="proceedToMenu()">IK BEGRIJP HET — DOORGAAN<span class="blink"> ▶</span></button>
@@ -740,6 +800,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
     </div>
     <div class="term-window">
       <div class="start-eyebrow">SYSTEEM GEÏNITIALISEERD — NACHT SELECTIE</div>
+      <!-- Gijs glitch image -->
+      <div class="menu-gijs-wrap">
+        <img class="menu-gijs-img" src="Images/GijsCamera.png" alt="Meester Gijs">
+        <div class="menu-gijs-scanlines"></div>
+        <div class="menu-gijs-glitch-bar"></div>
+      </div>
       <div class="start-title">FIVE NIGHTS AT<br>MEESTER GIJS</div>
       <div class="start-sub">Five Nights of Academic Detention<span class="blink">_</span></div>
       <div class="lore-card" id="loreCard">
@@ -956,20 +1022,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 
 <script>
 /* ================================================================
-   ONE NIGHT AT MEESTER GIJS  –  v6.0
-   Changes:
-   - Added Diddy (hard mode): moves like Gijs, ignores doors,
-     camera ALARM sends him back to CAM 1
-   - Added Camera ALARM button (20s cooldown):
-     on Chapo cam → resets Chapo to phase 1
-     on Diddy cam → sends Diddy back to CAM 1
-     plays CameraAlarm.mp3
-   - Removed Chapo & Mark attack-flash camera jumpscares
-   - Reworked Chapo: immune to doors, alarm resets him to phase 1
+   ONE NIGHT AT MEESTER GIJS  –  v6.1
+   Changes from v6.0:
+   - Warning screen: removed klasgenoten mention, added fullscreen tip
+   - Main menu: larger layout, Gijs glitch image added
+   - 5 AM: stop Ambience.mp3, play 5AM.mp3
+   - ShadowGijs jumpscare now uses Jumpscare.mp3 (not shadowGijsAudio)
    ================================================================ */
 
 const FILES = {
   ambience:     'Audio/Ambience.mp3',
+  fiveAM:       'Audio/5AM.mp3',
   doorClose:    'Audio/DoorClose.mp3',
   jumpscare:    'Audio/Jumpscare.mp3',
   lure:         'Audio/Lure.mp3',
@@ -1062,6 +1125,9 @@ const CHAPO_SPRITES      = 3;
 // Diddy — moves like Gijs, different path
 const DIDDY_MOVE_IVAL    = [26000,20000,14000,10000,7000,4500];
 const DIDDY_ALLOWED_CAMS = [0,1,2,3,4];
+
+/* ── 5 AM threshold (5/6 of the night) ── */
+const FIVE_AM_PROGRESS = 5/6;
 
 /* ── CAMERAS ── */
 const CAMS = [
@@ -1157,17 +1223,14 @@ let selectedNight = 0;
 function selectNight(n){
   selectedNight = n;
   const cfg = NIGHT_CONFIGS[n];
-  // Update lore card
   document.getElementById('loreText').innerHTML = cfg.lore;
   document.getElementById('loreQuote').textContent = cfg.quote;
   document.getElementById('loreWarn').innerHTML = cfg.warn;
   document.getElementById('loreCard').style.borderTopColor = n===5?'#ff6600':'#550000';
-  // Update buttons
   for(let i=1;i<=5;i++){
     const btn=document.getElementById('nb'+i);
     btn.className='night-btn'+(i===n?(n===5?' night5-sel':' selected'):'');
   }
-  // Start button
   const sb=document.getElementById('startBtn');
   sb.disabled=false;
   sb.className='start-btn'+(n===5?' night5-btn':'');
@@ -1236,6 +1299,8 @@ function mkState(){
     shadowActive:false,
     shadowKillTimer:null,
     shadowCheckTimer:null,
+    // 5 AM flag
+    fiveAMTriggered:false,
   };
 }
 
@@ -1243,6 +1308,7 @@ function mkState(){
 function initAudio(){
   Object.entries({
     ambience:     [FILES.ambience,     true,  .28],
+    fiveAM:       [FILES.fiveAM,       false, .55],
     doorClose:    [FILES.doorClose,    false, .8 ],
     jumpscare:    [FILES.jumpscare,    false, 1  ],
     lure:         [FILES.lure,         false, .75],
@@ -1670,9 +1736,7 @@ function refreshMonsterDots(){
 function alarmTargetOnCam(){
   if(!G.camOpen||G.dead||G.won) return false;
   const id=G.curCam;
-  // Chapo is on cam 3 and active
   if(G.chapoActive&&id===CHAPO_CAM_ID) return true;
-  // Diddy is on this cam
   if(G.diddyActive&&G.diddyPos===id&&id!==MUSIC_CAM_ID) return true;
   return false;
 }
@@ -1704,23 +1768,19 @@ function useCameraAlarm(){
   play('cameraAlarm');
   let used=false;
 
-  // Reset Chapo if on cam 3
   if(G.chapoActive&&G.curCam===CHAPO_CAM_ID&&!G.chapoAlarm){
     resetChapo();
     used=true;
   }
-  // Reset Chapo if chapoAlarm is firing
   if(G.chapoActive&&G.chapoAlarm){
     resetChapo();
     used=true;
   }
-  // Reset Diddy if on current cam
   if(G.diddyActive&&G.diddyPos===G.curCam&&G.curCam!==MUSIC_CAM_ID){
     resetDiddy();
     used=true;
   }
 
-  // Start cooldown
   G.alarmReady=false;
   G.alarmCD=ALARM_CD_S;
   clearInterval(G.alarmCDTimer);
@@ -1935,7 +1995,6 @@ function triggerChapoAlarm(){
   refreshMonsterDots();
   if(G.camOpen) renderCamFeed();
 
-  // Chapo ignores doors — kill after 6 seconds unless alarm is used
   G.chapoKillTimer=setTimeout(()=>{
     if(!G.dead&&!G.won&&G.chapoAlarm) triggerChapoJS();
   }, CHAPO_KILL_DELAY_MS);
@@ -1954,12 +2013,10 @@ function scheduleDiddyMove(){
 function advanceDiddy(){
   if(G.dead||G.won||!G.diddyActive) return;
   if(G.diddyPos===POS.LD||G.diddyPos===POS.RD){
-    // Diddy ignores doors — kill immediately
     triggerDiddyJS();
     return;
   }
   let np=G.diddyPos;
-  // Mirror Gijs path
   if(G.diddyPos===POS.C0) np=POS.C1;
   else if(G.diddyPos===POS.C1) np=POS.C2;
   else if(G.diddyPos===POS.C2){
@@ -1973,7 +2030,6 @@ function advanceDiddy(){
   refreshMonsterDots();
   if(G.camOpen) renderCamFeed();
   updateAlarmUI();
-  // If Diddy reached a door position → kill (doors don't stop him)
   if(np===POS.LD||np===POS.RD){
     G.diddyMoveTimer=setTimeout(()=>{
       if(!G.dead&&!G.won) triggerDiddyJS();
@@ -2072,7 +2128,7 @@ function toggleCam(){
     G.maduroWatchMs=0;
   }
   if(G.camOpen) switchCam(G.curCam);
-  if(G.camOpen) shadowGijsDismiss(); // opening camera chases him away
+  if(G.camOpen) shadowGijsDismiss();
   updateLureUI();
   updateAlarmUI();
 }
@@ -2222,7 +2278,6 @@ function useLure(){
   if(hoboOnCurrentCam()){triggerHoboJS();return;}
   play('lure');
 
-  // Push Diddy back if he's on current cam
   if(G.diddyActive&&G.diddyPos===G.curCam&&G.curCam!==MUSIC_CAM_ID){
     const pb={[POS.LD]:POS.C3,[POS.RD]:POS.C4,[POS.C3]:POS.C2,[POS.C4]:POS.C2,[POS.C2]:POS.C1,[POS.C1]:POS.C0,[POS.C0]:POS.C0};
     const np=pb[G.diddyPos];
@@ -2236,7 +2291,6 @@ function useLure(){
     }
   }
 
-  // Push Gijs back
   const pb={[POS.LD]:POS.C3,[POS.RD]:POS.C4,[POS.C3]:POS.C2,[POS.C4]:POS.C2,[POS.C2]:POS.C1,[POS.C1]:POS.C0,[POS.C0]:POS.C0};
   const np=pb[G.mPos];
   if(np!==undefined){
@@ -2252,9 +2306,7 @@ function useLure(){
   updateLureUI();
 }
 
-/* ════ O2 ════ */
 /* ════ SHADOW GIJS AI ════ */
-// Triggered when camera is closed. 0.5% chance per tick (400ms).
 function tickShadowGijs(){
   if(G.dead||G.won||G.camOpen||G.shadowActive) return;
   if(Math.random()<G.cfg.shadowChance) shadowGijsAppear();
@@ -2266,10 +2318,8 @@ function shadowGijsAppear(){
   const img=document.getElementById('shadowGijsOfficeImg');
   img.style.display='block';
   img.style.animation='shadowGijsFade 0.4s ease-out forwards';
-  // After fade in, keep pulsing
   setTimeout(()=>{img.style.animation='shadowGijsPulse 1s ease-in-out infinite';},400);
   play('shadowGijsAudio');
-  // 3 second kill timer — dismissed by opening camera
   if(G.shadowKillTimer) clearTimeout(G.shadowKillTimer);
   G.shadowKillTimer=setTimeout(()=>{
     if(G.shadowActive&&!G.dead&&!G.won) triggerShadowGijsJS();
@@ -2294,9 +2344,20 @@ function triggerShadowGijsJS(){
   const img=document.getElementById('shadowGijsOfficeImg');
   img.style.display='none';
   G.shadowActive=false;
-  doJumpscare(FILES.shadowGijsJS,'Shadow Gijs heeft je gevangen.<br><em>"Je had weg moeten kijken..."</em>','shadowGijsAudio');
+  // Use normal Jumpscare.mp3 for Shadow Gijs
+  doJumpscare(FILES.shadowGijsJS,'Shadow Gijs heeft je gevangen.<br><em>"Je had weg moeten kijken..."</em>','jumpscare');
 }
 
+/* ════ 5 AM HANDLER ════ */
+function trigger5AM(){
+  if(G.fiveAMTriggered) return;
+  G.fiveAMTriggered=true;
+  // Stop ambience, start 5AM audio
+  stop('ambience');
+  play('fiveAM');
+}
+
+/* ════ GAME TICK ════ */
 function gameTick(){
   if(G.dead||G.won) return;
   let drain=O2_DRAIN_BASE;
@@ -2438,6 +2499,12 @@ function tickTime(){
   if(G.dead||G.won) return;
   const progress=Math.min(1,(Date.now()-G.nightStart)/NIGHT_MS);
   if(progress>=1){triggerWin();return;}
+
+  // 5 AM trigger
+  if(!G.fiveAMTriggered && progress>=FIVE_AM_PROGRESS){
+    trigger5AM();
+  }
+
   const totalMins=progress*360;
   G.hour=Math.floor(totalMins/60);
   const h=G.hour===0?12:G.hour,m=String(Math.floor(totalMins%60)).padStart(2,'0');
@@ -2520,7 +2587,6 @@ function startGame(){
   document.getElementById('maduroCamImg').style.display='none';
   document.getElementById('attackFlashOverlay').classList.remove('active');
   document.getElementById('attackFlashImg').src='';
-  // Reset ShadowGijs
   const sgImg=document.getElementById('shadowGijsOfficeImg');
   sgImg.style.display='none';sgImg.style.opacity='';sgImg.style.transition='';sgImg.style.animation='';
 
@@ -2561,11 +2627,9 @@ function startGame(){
   updateLureUI();
   updateVentUI();
 
-  // Lure cooldown
   G.lureCD=LURE_CD_S;
   G.lureCDTimer=setInterval(()=>{G.lureCD--;if(G.lureCD<=0){G.lureReady=true;G.lureCD=0;clearInterval(G.lureCDTimer);}updateLureUI();},1000);
 
-  // Alarm — starts ready
   G.alarmReady=true;
   G.alarmCD=0;
   updateAlarmUI();
