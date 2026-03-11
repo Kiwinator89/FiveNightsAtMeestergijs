@@ -545,6 +545,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 #markVentImg.mark-visible{display:block}
 #markVentImg.mark-urgent{filter:brightness(.65) contrast(1.6) saturate(.8);animation:markPanic .4s infinite}
 @keyframes markPanic{0%,100%{transform:scale(1.02)}50%{transform:scale(1.05) translateX(-3px)}}
+
+/* ══ SHADOW GIJS ══ */
+@keyframes shadowGijsFade{from{opacity:0}to{opacity:1}}
+@keyframes shadowGijsPulse{0%,100%{opacity:.85}50%{opacity:1}}
 </style>
 </head>
 <body>
@@ -724,6 +728,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 
   <canvas id="fireCanvas"></canvas>
   <div id="flashEl"></div>
+  <!-- ShadowGijs office overlay -->
+  <img id="shadowGijsOfficeImg" src="Images/ShadowGijsOffice.png" alt=""
+    style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:18;pointer-events:none;
+    filter:brightness(.55) contrast(1.6) saturate(.3);animation:shadowGijsFade 0.4s ease-out forwards">
 </div>
 
 <!-- ════ JUMPSCARE ════ -->
@@ -801,6 +809,9 @@ const FILES = {
   maduroJS:     'Images/MaduroJumpscare.png',
   diddyCam:     'Images/DiddyCamera.png',
   diddyJS:      'Images/DiddyJumpscare.png',
+  shadowGijsOffice: 'Images/ShadowGijsOffice.png',
+  shadowGijsJS:     'Images/ShadowGijsJumpscare.png',
+  shadowGijsAudio:  'Audio/ShadowGijs.mp3',
   camBg0:       'Images/StookKamer.png',
   camBg1:       'Images/VoorraadKamer.png',
   camBg2:       'Images/KlasLokaal.png',
@@ -841,7 +852,7 @@ const ALARM_CD_S         = 20;
 const MADURO_APPEAR_INTERVAL = 2000;
 const MADURO_APPEAR_CHANCE   = 0.04;
 const MADURO_WATCH_LIMIT_MS  = 500;
-const MADURO_DISABLE_MS      = 20000;
+const MADURO_DISABLE_MS      = 8000;
 
 // Jeffrey
 const JEFFREY_START_POS  = 0;
@@ -940,6 +951,10 @@ function mkState(){
     tickTimer:null,timeTimer:null,fireTimer:null,
     glitchLoopTimer:null,
     attackFlashTimer:null,
+    // ShadowGijs
+    shadowActive:false,
+    shadowKillTimer:null,
+    shadowCheckTimer:null,
   };
 }
 
@@ -963,6 +978,7 @@ function initAudio(){
     markAudio:    [FILES.markAudio,    false, .75],
     shock:        [FILES.shock,        false, .95],
     cameraAlarm:  [FILES.cameraAlarm,  false, .9 ],
+    shadowGijsAudio: [FILES.shadowGijsAudio, false, .9],
   }).forEach(([k,[src,loop,vol]])=>{
     SFX[k]=new Audio(src);SFX[k].loop=loop;SFX[k].volume=vol;
   });
@@ -1334,8 +1350,6 @@ function refreshMonsterDots(){
     if(thumb){
       if(isCamDisabled(c.id)) thumb.classList.add('cam-maduro-warn');
       else thumb.classList.remove('cam-maduro-warn');
-      if(G.diddyActive&&G.diddyPos===c.id&&c.id!==MUSIC_CAM_ID) thumb.classList.add('cam-diddy-warn');
-      else thumb.classList.remove('cam-diddy-warn');
     }
   });
 
@@ -1777,6 +1791,7 @@ function toggleCam(){
     G.maduroWatchMs=0;
   }
   if(G.camOpen) switchCam(G.curCam);
+  if(G.camOpen) shadowGijsDismiss(); // opening camera chases him away
   updateLureUI();
   updateAlarmUI();
 }
@@ -1895,7 +1910,8 @@ function inLureRange(){
   };
   const gijsInRange=G.curCam!==MUSIC_CAM_ID&&(G.mPos===G.curCam||(adj[G.mPos]||[]).includes(G.curCam));
   const hoboInRange=G.curCam!==MUSIC_CAM_ID&&G.hoboPos===G.curCam;
-  return gijsInRange||hoboInRange;
+  const diddyInRange=G.diddyActive&&G.curCam!==MUSIC_CAM_ID&&G.diddyPos===G.curCam;
+  return gijsInRange||hoboInRange||diddyInRange;
 }
 
 function hoboOnCurrentCam(){return G.camOpen&&G.hoboPos===G.curCam&&G.curCam!==MUSIC_CAM_ID;}
@@ -1924,6 +1940,22 @@ function useLure(){
   if(!G.lureReady||!inLureRange()||G.dead||G.won) return;
   if(hoboOnCurrentCam()){triggerHoboJS();return;}
   play('lure');
+
+  // Push Diddy back if he's on current cam
+  if(G.diddyActive&&G.diddyPos===G.curCam&&G.curCam!==MUSIC_CAM_ID){
+    const pb={[POS.LD]:POS.C3,[POS.RD]:POS.C4,[POS.C3]:POS.C2,[POS.C4]:POS.C2,[POS.C2]:POS.C1,[POS.C1]:POS.C0,[POS.C0]:POS.C0};
+    const np=pb[G.diddyPos];
+    if(np!==undefined){
+      if(G.diddyMoveTimer){clearTimeout(G.diddyMoveTimer);G.diddyMoveTimer=null;}
+      G.diddyPos=np;
+      G.diddyPath=null;
+      refreshMonsterDots();
+      if(G.camOpen) renderCamFeed();
+      scheduleDiddyMove();
+    }
+  }
+
+  // Push Gijs back
   const pb={[POS.LD]:POS.C3,[POS.RD]:POS.C4,[POS.C3]:POS.C2,[POS.C4]:POS.C2,[POS.C2]:POS.C1,[POS.C1]:POS.C0,[POS.C0]:POS.C0};
   const np=pb[G.mPos];
   if(np!==undefined){
@@ -1940,6 +1972,50 @@ function useLure(){
 }
 
 /* ════ O2 ════ */
+/* ════ SHADOW GIJS AI ════ */
+// Triggered when camera is closed. 0.5% chance per tick (400ms).
+function tickShadowGijs(){
+  if(G.dead||G.won||G.camOpen||G.shadowActive) return;
+  if(Math.random()<0.005) shadowGijsAppear();
+}
+
+function shadowGijsAppear(){
+  if(G.shadowActive||G.dead||G.won) return;
+  G.shadowActive=true;
+  const img=document.getElementById('shadowGijsOfficeImg');
+  img.style.display='block';
+  img.style.animation='shadowGijsFade 0.4s ease-out forwards';
+  // After fade in, keep pulsing
+  setTimeout(()=>{img.style.animation='shadowGijsPulse 1s ease-in-out infinite';},400);
+  play('shadowGijsAudio');
+  // 3 second kill timer — dismissed by opening camera
+  if(G.shadowKillTimer) clearTimeout(G.shadowKillTimer);
+  G.shadowKillTimer=setTimeout(()=>{
+    if(G.shadowActive&&!G.dead&&!G.won) triggerShadowGijsJS();
+  },3000);
+}
+
+function shadowGijsDismiss(){
+  if(!G.shadowActive) return;
+  G.shadowActive=false;
+  if(G.shadowKillTimer){clearTimeout(G.shadowKillTimer);G.shadowKillTimer=null;}
+  stop('shadowGijsAudio');
+  const img=document.getElementById('shadowGijsOfficeImg');
+  img.style.animation='none';
+  img.style.opacity='0';
+  img.style.transition='opacity 0.3s';
+  setTimeout(()=>{img.style.display='none';img.style.opacity='';img.style.transition='';},320);
+}
+
+function triggerShadowGijsJS(){
+  if(G.dead) return;
+  stop('shadowGijsAudio');
+  const img=document.getElementById('shadowGijsOfficeImg');
+  img.style.display='none';
+  G.shadowActive=false;
+  doJumpscare(FILES.shadowGijsJS,'Shadow Gijs heeft je gevangen.<br><em>"Je had moeten kijken."</em>','shadowGijsAudio');
+}
+
 function gameTick(){
   if(G.dead||G.won) return;
   let drain=O2_DRAIN_BASE;
@@ -1955,6 +2031,7 @@ function gameTick(){
   tickJeffrey();
   tickChapo();
   tickMaduro();
+  tickShadowGijs();
   maybeGlitch();
   updateAlarmUI();
 }
@@ -2129,7 +2206,8 @@ function killTimers(){
   [G.tickTimer,G.timeTimer,G.mMoveTimer,G.mDoorTimer,G.mRetreatTimer,
    G.fireTimer,G.lureCDTimer,G.hoboMoveTimer,G.chapoKillTimer,
    G.markAppearTimer,G.markKillTimer,G.markLeaveTimer,G.markCheckInterval,
-   G.maduroSpawnTimer,G.attackFlashTimer,G.diddyMoveTimer,G.alarmCDTimer
+   G.maduroSpawnTimer,G.attackFlashTimer,G.diddyMoveTimer,G.alarmCDTimer,
+   G.shadowKillTimer,G.shadowCheckTimer
   ].forEach(t=>{if(t)try{clearInterval(t);clearTimeout(t);}catch(e){}});
   if(glitchTimer){clearTimeout(glitchTimer);glitchTimer=null;}
   glitchActive=false;
@@ -2159,6 +2237,9 @@ function startGame(){
   document.getElementById('maduroCamImg').style.display='none';
   document.getElementById('attackFlashOverlay').classList.remove('active');
   document.getElementById('attackFlashImg').src='';
+  // Reset ShadowGijs
+  const sgImg=document.getElementById('shadowGijsOfficeImg');
+  sgImg.style.display='none';sgImg.style.opacity='';sgImg.style.transition='';sgImg.style.animation='';
 
   G.ventClosed=false;
   document.getElementById('ventGrate').classList.remove('shut');
