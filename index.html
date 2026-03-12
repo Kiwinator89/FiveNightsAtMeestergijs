@@ -456,6 +456,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .cn-val-row{display:flex;justify-content:space-between;align-items:center}
 .cn-num{font-family:'VT323',monospace;font-size:.95rem;color:#cc7700;letter-spacing:2px}
 .cn-lbl{font-size:.45rem;letter-spacing:2px;font-family:'Share Tech Mono',monospace}
+
+/* ══ BULK KNOPPEN ══ */
+.cn-bulk-btn{
+  background:#0a0500;border:1px solid #330000;
+  font-family:'VT323',monospace;font-size:.95rem;
+  letter-spacing:2px;cursor:pointer;
+  padding:3px 10px;transition:all .15s;line-height:1.4;
+}
+.cn-bulk-pos{color:#3a8a0a;border-color:#1a3a0a}
+.cn-bulk-pos:hover{background:#0f1a05;border-color:#55aa22;color:#88dd44;box-shadow:0 0 8px rgba(100,200,0,.25)}
+.cn-bulk-max{color:#ff4400;border-color:#660000;animation:diffFlash .9s infinite}
+.cn-bulk-max:hover{background:#1a0500;border-color:#ff2200;color:#ff6600;box-shadow:0 0 10px rgba(255,60,0,.35)}
+.cn-bulk-neg{color:#884400;border-color:#441a00}
+.cn-bulk-neg:hover{background:#140800;border-color:#cc6600;color:#ffaa44;box-shadow:0 0 8px rgba(200,100,0,.25)}
+.cn-bulk-reset{color:#330000;border-color:#220000}
+.cn-bulk-reset:hover{background:#0a0000;border-color:#880000;color:#aa2222;box-shadow:0 0 8px rgba(150,0,0,.3)}
 </style>
 </head>
 <body>
@@ -558,10 +574,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('gijs',customLevels.gijs-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_gijs"></div></div>
-              <input class="cn-input" id="ci_gijs" type="number" min="0" max="20" value="5" oninput="setCustomLevel('gijs',this.value)">
+              <input class="cn-input" id="ci_gijs" type="number" min="0" max="20" value="0" oninput="setCustomLevel('gijs',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('gijs',customLevels.gijs+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_gijs">5</span><span class="cn-lbl" id="cdl_gijs">GEMIDDELD</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_gijs">0</span><span class="cn-lbl" id="cdl_gijs">INACTIEF</span></div>
           </div>
 
           <!-- Hobo Gijs -->
@@ -571,10 +587,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('hobo',customLevels.hobo-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_hobo"></div></div>
-              <input class="cn-input" id="ci_hobo" type="number" min="0" max="20" value="5" oninput="setCustomLevel('hobo',this.value)">
+              <input class="cn-input" id="ci_hobo" type="number" min="0" max="20" value="0" oninput="setCustomLevel('hobo',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('hobo',customLevels.hobo+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_hobo">5</span><span class="cn-lbl" id="cdl_hobo">GEMIDDELD</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_hobo">0</span><span class="cn-lbl" id="cdl_hobo">INACTIEF</span></div>
           </div>
 
           <!-- Tumor Tom -->
@@ -584,10 +600,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('tom',customLevels.tom-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_tom"></div></div>
-              <input class="cn-input" id="ci_tom" type="number" min="0" max="20" value="3" oninput="setCustomLevel('tom',this.value)">
+              <input class="cn-input" id="ci_tom" type="number" min="0" max="20" value="0" oninput="setCustomLevel('tom',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('tom',customLevels.tom+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_tom">3</span><span class="cn-lbl" id="cdl_tom">LAAG</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_tom">0</span><span class="cn-lbl" id="cdl_tom">INACTIEF</span></div>
           </div>
 
           <!-- Mark Rutte -->
@@ -597,10 +613,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('mark',customLevels.mark-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_mark"></div></div>
-              <input class="cn-input" id="ci_mark" type="number" min="0" max="20" value="3" oninput="setCustomLevel('mark',this.value)">
+              <input class="cn-input" id="ci_mark" type="number" min="0" max="20" value="0" oninput="setCustomLevel('mark',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('mark',customLevels.mark+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_mark">3</span><span class="cn-lbl" id="cdl_mark">LAAG</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_mark">0</span><span class="cn-lbl" id="cdl_mark">INACTIEF</span></div>
           </div>
 
           <!-- Maduro -->
@@ -610,10 +626,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('maduro',customLevels.maduro-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_maduro"></div></div>
-              <input class="cn-input" id="ci_maduro" type="number" min="0" max="20" value="3" oninput="setCustomLevel('maduro',this.value)">
+              <input class="cn-input" id="ci_maduro" type="number" min="0" max="20" value="0" oninput="setCustomLevel('maduro',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('maduro',customLevels.maduro+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_maduro">3</span><span class="cn-lbl" id="cdl_maduro">LAAG</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_maduro">0</span><span class="cn-lbl" id="cdl_maduro">INACTIEF</span></div>
           </div>
 
           <!-- Jeffrey -->
@@ -662,14 +678,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
             <div class="cn-ctrl">
               <button class="cn-btn" onclick="setCustomLevel('shadow',customLevels.shadow-1)">−</button>
               <div class="cn-bar-wrap"><div class="cn-bar-fill" id="cb_shadow"></div></div>
-              <input class="cn-input" id="ci_shadow" type="number" min="0" max="20" value="2" oninput="setCustomLevel('shadow',this.value)">
+              <input class="cn-input" id="ci_shadow" type="number" min="0" max="20" value="0" oninput="setCustomLevel('shadow',this.value)">
               <button class="cn-btn" onclick="setCustomLevel('shadow',customLevels.shadow+1)">+</button>
             </div>
-            <div class="cn-val-row"><span class="cn-num" id="cv_shadow">2</span><span class="cn-lbl" id="cdl_shadow">RUSTIG</span></div>
+            <div class="cn-val-row"><span class="cn-num" id="cv_shadow">0</span><span class="cn-lbl" id="cdl_shadow">INACTIEF</span></div>
           </div>
 
         </div>
-        <div style="margin-top:12px;font-size:.48rem;color:#332200;letter-spacing:3px;font-family:'Share Tech Mono',monospace;">// 0 = INACTIEF · 20 = MAX AGGRESIEF · Tom/Mark/Jeffrey/Chapo/Diddy op 0 = uitgeschakeld</div>
+
+        <!-- Bulk aanpassing knoppen -->
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          <span style="font-size:.45rem;color:#330000;letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-right:4px;">ALLES:</span>
+          <button class="cn-bulk-btn cn-bulk-pos" onclick="adjustAllLevels(5)">+5</button>
+          <button class="cn-bulk-btn cn-bulk-pos" onclick="adjustAllLevels(10)">+10</button>
+          <button class="cn-bulk-btn cn-bulk-max" onclick="adjustAllLevels(20,'set')">+20</button>
+          <span style="width:1px;height:16px;background:#330000;display:inline-block;margin:0 4px;"></span>
+          <button class="cn-bulk-btn cn-bulk-neg" onclick="adjustAllLevels(-5)">−5</button>
+          <button class="cn-bulk-btn cn-bulk-neg" onclick="adjustAllLevels(-10)">−10</button>
+          <button class="cn-bulk-btn cn-bulk-reset" onclick="adjustAllLevels(0,'set')">RESET</button>
+        </div>
+
+        <div style="margin-top:10px;font-size:.48rem;color:#332200;letter-spacing:3px;font-family:'Share Tech Mono',monospace;">// 0 = INACTIEF · 20 = MAX AGGRESIEF · elk karakter op 0 = uitgeschakeld</div>
       </div>
 
       <button class="start-btn" id="startBtn" disabled>SELECTEER EEN NACHT</button>
@@ -849,7 +878,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 </div>
 
 <!-- ════ GAME SCRIPT ════ -->
-<script src="UI.js"></script>
+<script src="game.js"></script>
 
 </body>
 </html>
