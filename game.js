@@ -1369,6 +1369,7 @@ function triggerShadowGijsJS(){
   const img=document.getElementById('shadowGijsOfficeImg');
   img.style.display='none';G.shadowActive=false;
   doJumpscare(FILES.shadowGijsJS,'Shadow Gijs heeft je gevangen.<br><em>"Je had weg moeten kijken..."</em>','shadowGijsAudio');
+  if(SFX.jumpscare){const s=SFX.jumpscare;s.currentTime=0;s.volume=2.0;s.play().catch(()=>{});}
 }
 
 /* ══════════════════════════════════════════
