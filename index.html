@@ -102,17 +102,70 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 @keyframes cornerFlicker{0%,100%{opacity:1}45%{opacity:.6}46%{opacity:1}47%{opacity:.4}48%{opacity:1}}
 .start-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:24px 0;width:100%}
 
-/* ══ GIJS GLITCH HERO ══ */
-#gijsHero{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
-#gijsHero::before{content:'';position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 0%,rgba(0,0,0,.82) 65%,rgba(0,0,0,.97) 100%);}
-#gijsHeroImg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(520px,72vw);height:auto;opacity:0.18;filter:brightness(0.5) contrast(2.5) saturate(0.3) hue-rotate(330deg);animation:gijsGlitchMain 3s infinite;mix-blend-mode:screen;}
-@keyframes gijsGlitchMain{0%,87%,100%{filter:brightness(0.5) contrast(2.5) saturate(0.3) hue-rotate(330deg);transform:translate(-50%,-50%) scale(1);opacity:0.18;}88%{filter:brightness(1.2) contrast(4) saturate(6) hue-rotate(0deg);transform:translate(calc(-50% + 12px),-50%) scale(1.02) skewX(-3deg);opacity:0.65;}89%{filter:brightness(0.3) contrast(5) saturate(0) hue-rotate(180deg);transform:translate(calc(-50% - 8px),-50%) scale(0.99) skewX(2deg);opacity:0.5;}90%{filter:brightness(1.4) contrast(3) saturate(8) hue-rotate(60deg);transform:translate(-50%,-50%) scale(1.04);opacity:0.72;}91%{filter:brightness(0.5) contrast(2.5) saturate(0.3) hue-rotate(330deg);transform:translate(-50%,-50%) scale(1);opacity:0.18;}95%{filter:brightness(0.8) contrast(3) saturate(2) hue-rotate(200deg);transform:translate(calc(-50% + 4px),calc(-50% - 3px)) scale(1.01);opacity:0.32;}96%{filter:brightness(0.5) contrast(2.5) saturate(0.3) hue-rotate(330deg);transform:translate(-50%,-50%) scale(1);opacity:0.18;}}
-.gijs-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(520px,72vw);height:auto;pointer-events:none;mix-blend-mode:screen;}
+/* ══ GIJS RECHTS HERO ══ */
+#gijsHero{
+  position:fixed;
+  top:0;right:0;bottom:0;
+  width:min(500px,42vw);
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+#gijsHero::before{
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(
+    to right,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.75) 25%,
+    rgba(0,0,0,0.3) 55%,
+    rgba(0,0,0,0.05) 100%
+  );
+}
+#gijsHero::after{
+  content:'';position:absolute;inset:0;z-index:3;
+  background:radial-gradient(ellipse 90% 70% at 80% 55%,rgba(180,0,0,0.13) 0%,transparent 70%);
+  pointer-events:none;
+}
+#gijsHeroImg{
+  position:absolute;
+  bottom:0;right:0;
+  width:100%;
+  height:auto;
+  max-height:96vh;
+  object-fit:contain;
+  object-position:bottom right;
+  opacity:0.88;
+  filter:brightness(0.42) contrast(2.4) saturate(0.22) hue-rotate(330deg);
+  animation:gijsGlitchMain 3s infinite;
+  mix-blend-mode:screen;
+  transform-origin:bottom right;
+}
+@keyframes gijsGlitchMain{
+  0%,87%,100%{filter:brightness(0.42) contrast(2.4) saturate(0.22) hue-rotate(330deg);transform:scale(1);opacity:0.88;}
+  88%{filter:brightness(1.2) contrast(4) saturate(6) hue-rotate(0deg);transform:scale(1.02) translateX(12px) skewX(-2deg);opacity:0.95;}
+  89%{filter:brightness(0.3) contrast(5) saturate(0) hue-rotate(180deg);transform:scale(0.99) translateX(-8px) skewX(2deg);opacity:0.7;}
+  90%{filter:brightness(1.4) contrast(3) saturate(8) hue-rotate(60deg);transform:scale(1.04);opacity:0.92;}
+  91%{filter:brightness(0.42) contrast(2.4) saturate(0.22) hue-rotate(330deg);transform:scale(1);opacity:0.88;}
+  95%{filter:brightness(0.7) contrast(2.8) saturate(1.5) hue-rotate(200deg);transform:scale(1.01) translateX(4px);opacity:0.9;}
+  96%{filter:brightness(0.42) contrast(2.4) saturate(0.22) hue-rotate(330deg);transform:scale(1);opacity:0.88;}
+}
+.gijs-ghost{
+  position:absolute;
+  bottom:0;right:0;
+  width:100%;
+  height:auto;
+  max-height:96vh;
+  object-fit:contain;
+  object-position:bottom right;
+  pointer-events:none;
+  mix-blend-mode:screen;
+  transform-origin:bottom right;
+}
 .gijs-ghost.red{filter:brightness(0.4) contrast(3) saturate(0) sepia(1) hue-rotate(320deg);opacity:0;animation:gijsGhostR 3s infinite;}
 .gijs-ghost.cyan{filter:brightness(0.4) contrast(3) saturate(0) sepia(1) hue-rotate(160deg);opacity:0;animation:gijsGhostC 3s infinite;}
-@keyframes gijsGhostR{0%,87%,92%,100%{opacity:0;transform:translate(calc(-50% + 0px),-50%)}88%{opacity:0.3;transform:translate(calc(-50% + 16px),-50%)}89%{opacity:0.2;transform:translate(calc(-50% - 10px),-50%)}90%,91%{opacity:0.25;transform:translate(calc(-50% + 8px),-50%)}}
-@keyframes gijsGhostC{0%,87%,92%,100%{opacity:0;transform:translate(calc(-50% + 0px),-50%)}88%{opacity:0.3;transform:translate(calc(-50% - 16px),-50%)}89%{opacity:0.2;transform:translate(calc(-50% + 10px),-50%)}90%,91%{opacity:0.25;transform:translate(calc(-50% - 8px),-50%)}}
-.gijs-scanbar{position:absolute;left:0;right:0;height:3px;background:rgba(255,0,0,0.15);top:0;animation:gijsScanbar 6s linear infinite;z-index:3;pointer-events:none;}
+@keyframes gijsGhostR{0%,87%,92%,100%{opacity:0;transform:translateX(0)}88%{opacity:0.35;transform:translateX(18px)}89%{opacity:0.2;transform:translateX(-10px)}90%,91%{opacity:0.28;transform:translateX(8px)}}
+@keyframes gijsGhostC{0%,87%,92%,100%{opacity:0;transform:translateX(0)}88%{opacity:0.35;transform:translateX(-18px)}89%{opacity:0.2;transform:translateX(10px)}90%,91%{opacity:0.28;transform:translateX(-8px)}}
+.gijs-scanbar{position:absolute;left:0;right:0;height:3px;background:rgba(255,0,0,0.15);top:0;animation:gijsScanbar 6s linear infinite;z-index:4;pointer-events:none;}
 @keyframes gijsScanbar{0%{top:-10px;opacity:0}5%{opacity:1}95%{opacity:0.3}100%{top:100%;opacity:0}}
 
 /* ══ TERMINAL HEADER ══ */
@@ -224,7 +277,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .o2-status{margin-top:5px;font-size:clamp(.4rem,.7vw,.55rem);color:#334488;letter-spacing:2px}
 .hud-tr{grid-column:3;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:all}
 
-/* CAMERA KNOP — helder blauw/paars */
 .cam-toggle-btn{
   background:rgba(8,8,26,.97);border:2px solid #7777cc;border-top:3px solid #bbbbff;
   padding:13px 24px;color:#ddddff;font-family:'Share Tech Mono',monospace;
@@ -236,7 +288,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .cam-toggle-btn:hover{border-color:#aaaaee;border-top-color:#eeeeff;color:#ffffff;box-shadow:0 0 32px rgba(150,150,255,.5);text-shadow:0 0 14px rgba(220,220,255,.7)}
 .cam-toggle-btn.active{border-color:#33ff77;border-top-color:#99ffbb;color:#55ff99;background:rgba(20,160,70,.14);box-shadow:0 0 28px rgba(29,185,84,.55);text-shadow:0 0 14px rgba(50,255,120,.7)}
 
-/* LURE PANEL — helder groen */
 .lure-panel{background:rgba(4,12,4,.97);border:2px solid #448844;border-top:3px solid #88cc88;padding:10px 14px;backdrop-filter:blur(6px);text-align:right;min-width:min(200px,25vw);box-shadow:0 0 20px rgba(40,160,40,.22)}
 .lure-btn{display:block;width:100%;background:rgba(8,22,8,.95);border:1px solid #448844;border-top:2px solid #77bb77;color:#88dd88;font-family:'Share Tech Mono',monospace;font-size:clamp(.54rem,.95vw,.7rem);letter-spacing:3px;text-transform:uppercase;padding:9px 10px;cursor:pointer;transition:all .2s;text-align:center;margin-bottom:6px;text-shadow:0 0 6px rgba(100,200,100,.3)}
 .lure-btn.ready{border-color:#55ee55;border-top-color:#aaff99;color:#77ff77;background:rgba(30,120,30,.25);box-shadow:0 0 22px rgba(70,220,70,.45);animation:lureGlow 1.5s infinite;text-shadow:0 0 12px rgba(100,255,100,.65)}
@@ -253,7 +304,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .hud-status-dot.crit{background:#ff0000!important;box-shadow:0 0 10px #ff0000!important;animation:dotPulse .25s infinite!important;border-color:#ff4444!important}
 @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* DEUREN — helder rood bij sluiting, zichtbaar idle */
 .door-btn{
   position:absolute;bottom:12%;width:min(90px,10.5vw);height:min(50px,6vw);
   background:#181826;border:2px solid #5555aa;border-top:3px solid #9999dd;
@@ -416,7 +466,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 .cam-main.has-glitch .glitch-overlay{opacity:1}
 #glitchTearBand{position:absolute;left:0;right:0;height:12px;z-index:10;pointer-events:none;background:rgba(0,0,0,.5);display:none;mix-blend-mode:difference}
 
-/* Extra glitch tear bands */
 .glitch-band{position:absolute;left:0;right:0;z-index:11;pointer-events:none;display:none;mix-blend-mode:difference}
 .glitch-band.red{background:rgba(255,0,0,.35);height:3px}
 .glitch-band.cyan{background:rgba(0,255,255,.25);height:2px}
@@ -425,26 +474,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 @keyframes thumbGlitch{0%,100%{filter:none;transform:none}30%{filter:hue-rotate(120deg) saturate(5);transform:translateX(2px) scaleY(1.01)}60%{filter:hue-rotate(240deg) brightness(1.5);transform:translateX(-3px)}80%{filter:saturate(8) brightness(.7);transform:none}}
 .cam-thumb.glitching{animation:thumbGlitch .2s steps(2) forwards}
 
-/* ══ AMBIENT GLITCH — HUD, TITLE, OFFICE ══ */
 @keyframes hudGlitch{0%,100%{filter:none;transform:none;opacity:1}10%{filter:hue-rotate(90deg) brightness(1.8);transform:translateX(3px)}11%{filter:none;transform:none}40%{opacity:.6;transform:translateX(-2px) skewX(.5deg)}41%{opacity:1;transform:none}70%{filter:brightness(2) saturate(0);transform:translateX(4px)}71%{filter:none;transform:none}}
 @keyframes titleScramble{0%,100%{filter:none;transform:none}5%{filter:hue-rotate(180deg) saturate(8);transform:skewX(-2deg) translateX(4px)}6%{filter:none;transform:none}22%{filter:brightness(3) saturate(0);transform:skewX(1.5deg) translateX(-3px) scaleY(1.01)}23%{filter:none;transform:none}55%{filter:hue-rotate(90deg) contrast(4);transform:translateX(6px)}56%{filter:none;transform:none}78%{filter:invert(.4) hue-rotate(270deg);transform:skewX(-1deg)}79%{filter:none;transform:none}}
 @keyframes screenTear{0%,100%{clip-path:none;transform:none}15%{clip-path:inset(30% 0 40% 0);transform:translateX(-8px)}16%{clip-path:none;transform:none}42%{clip-path:inset(60% 0 10% 0);transform:translateX(12px)}43%{clip-path:none;transform:none}68%{clip-path:inset(5% 0 75% 0);transform:translateX(-5px) skewX(.5deg)}69%{clip-path:none;transform:none}}
 @keyframes borderFlicker{0%,100%{border-color:rgba(200,0,0,.3);box-shadow:none}20%{border-color:rgba(255,0,80,.9);box-shadow:0 0 12px rgba(255,0,80,.5)}21%{border-color:rgba(200,0,0,.3)}50%{border-color:rgba(0,255,200,.6);box-shadow:0 0 8px rgba(0,255,200,.3)}51%{border-color:rgba(200,0,0,.3)}75%{border-color:rgba(255,255,0,.5);box-shadow:0 0 6px rgba(255,255,0,.2)}76%{border-color:rgba(200,0,0,.3)}}
-@keyframes noiseFlicker{0%,100%{opacity:.04}random-step{opacity:.18}25%{opacity:.08}50%{opacity:.22}75%{opacity:.06}}
+@keyframes noiseFlicker{0%,100%{opacity:.04}25%{opacity:.08}50%{opacity:.22}75%{opacity:.06}}
 @keyframes scanlineShift{0%{transform:translateY(0)}100%{transform:translateY(6px)}}
 
-/* Classes toggled by JS */
 .hud-glitching{animation:hudGlitch .22s steps(1) forwards!important}
 .title-glitching{animation:titleScramble .35s steps(2) forwards!important}
 .screen-tearing{animation:screenTear .2s steps(1) forwards!important}
 .border-glitch{animation:borderFlicker .4s steps(1) infinite!important}
 
-/* Persistent subtle ambient noise on game screen */
 #gameScreen::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:8;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity:.03;animation:noiseFlicker .08s steps(1) infinite}
 
-/* Random horizontal scan artifact */
 #scanArtifact{position:absolute;left:0;right:0;height:2px;z-index:19;pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,0,80,.7),rgba(0,255,200,.5),transparent);
   display:none;animation:scanlineShift .05s linear infinite}
@@ -599,6 +644,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
 
 <!-- ════ STARTSCHERM ════ -->
 <div id="startScreen">
+  <!-- Meester Gijs rechts in beeld -->
   <div id="gijsHero">
     <img id="gijsHeroImg" src="Images/GijsCamera.png" alt="">
     <img class="gijs-ghost red" src="Images/GijsCamera.png" alt="">
@@ -909,9 +955,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
       <img class="chapo-on-cam"    id="chapoCamImg"    src="" alt="" style="display:none">
       <img class="tom-on-cam"      id="tomCamImg"      src="" alt="" style="display:none">
       <img class="diddy-on-cam"    id="diddyCamImg"    src="" alt="" style="display:none">
-      <!-- Maduro bedekt het volledige beeld -->
       <img class="maduro-on-cam"   id="maduroCamImg"   src="Images/MaduroCamera.png" alt="">
-      <!-- Maduro uitgeschakeld overlay -->
       <div class="maduro-disabled-overlay" id="maduroDisabledOverlay">
         <div class="maduro-err-noise"></div>
         <div class="maduro-err-title">CAM OFFLINE</div>
@@ -919,7 +963,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
         <div class="maduro-err-bar"><div class="maduro-err-bar-fill" id="maduroErrFill"></div></div>
         <div class="maduro-err-sub">HERVERBINDING IN <span id="maduroReconnectSec">20</span>s…</div>
       </div>
-      <!-- Aanval flash overlay -->
       <div id="attackFlashOverlay">
         <img id="attackFlashImg" src="" alt="">
         <div class="flash-static"></div>
@@ -938,7 +981,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
       <div class="cam-lure-in-feed">
         <button class="lure-btn" id="lureBtnCam" disabled onclick="useLure()">🔊 LOKKEN</button>
       </div>
-      <!-- Muziekdoos panel (zichtbaar op CAM 6) -->
       <div id="musicBoxPanel">
         <div class="mb-header">
           <span class="mb-label">🎵 Muziekdoos</span>
@@ -963,7 +1005,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Sh
   <div class="glitch-band cyan" id="glitchBandC"></div>
   <div class="glitch-band white" id="glitchBandW"></div>
 
-  <!-- Shadow Gijs overlay in kantoor -->
   <img id="shadowGijsOfficeImg" src="Images/ShadowGijsOffice.png" alt=""
     style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:18;pointer-events:none;
     filter:brightness(.55) contrast(1.6) saturate(.3);animation:shadowGijsFade 0.4s ease-out forwards">
